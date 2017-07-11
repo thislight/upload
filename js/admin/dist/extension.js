@@ -91,7 +91,7 @@ System.register("flagrow/upload/components/UploadPage", ["flarum/Component", "fl
                         'ovhUsername', 'ovhPassword', 'ovhTenantId', 'ovhContainer', 'ovhRegion'];
 
                         // the checkboxes we need to watch and to save.
-                        this.checkboxes = ['mustResize', 'overrideAvatarUpload', 'disableHotlinkProtection', 'disableDownloadLogging'];
+                        this.checkboxes = ['mustResize', 'overrideAvatarUpload', 'hotlinkProtection', 'downloadLogging'];
 
                         // fields that are objects
                         this.objects = ['mimeTypes'];
@@ -197,14 +197,14 @@ System.register("flagrow/upload/components/UploadPage", ["flarum/Component", "fl
                             options: this.watermarkPositions,
                             onchange: this.values.watermarkPosition,
                             value: this.values.watermarkPosition() || 'bottom-right'
-                        })]), m('label', {}, app.translator.trans('flagrow-upload.admin.labels.watermark.file')), m(UploadImageButton, { name: "flagrow/watermark" })]), m('fieldset', { className: 'UploadPage-downloading' }, [m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.disable-hotlink-protection.title')), m('div', { className: 'helpText' }, app.translator.trans('flagrow-upload.admin.help_texts.disable-hotlink-protection')), Switch.component({
-                            state: this.values.disableHotlinkProtection() || false,
-                            children: app.translator.trans('flagrow-upload.admin.labels.disable-hotlink-protection.toggle'),
-                            onchange: this.values.disableHotlinkProtection
-                        }), m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.disable-download-logging.title')), m('div', { className: 'helpText' }, app.translator.trans('flagrow-upload.admin.help_texts.disable-download-logging')), Switch.component({
-                            state: this.values.disableDownloadLogging() || false,
-                            children: app.translator.trans('flagrow-upload.admin.labels.disable-download-logging.toggle'),
-                            onchange: this.values.disableDownloadLogging
+                        })]), m('label', {}, app.translator.trans('flagrow-upload.admin.labels.watermark.file')), m(UploadImageButton, { name: "flagrow/watermark" })]), m('fieldset', { className: 'UploadPage-downloading' }, [m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.hotlink-protection.title')), m('div', { className: 'helpText' }, app.translator.trans('flagrow-upload.admin.help_texts.hotlink-protection')), Switch.component({
+                            state: this.values.hotlinkProtection(),
+                            children: app.translator.trans('flagrow-upload.admin.labels.hotlink-protection.toggle'),
+                            onchange: this.values.hotlinkProtection
+                        }), m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.download-logging.title')), m('div', { className: 'helpText' }, app.translator.trans('flagrow-upload.admin.help_texts.download-logging')), Switch.component({
+                            state: this.values.downloadLogging(),
+                            children: app.translator.trans('flagrow-upload.admin.labels.download-logging.toggle'),
+                            onchange: this.values.downloadLogging
                         })]), m('fieldset', {
                             className: 'UploadPage-local'
                         }, [m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.local.title')), m('label', {}, app.translator.trans('flagrow-upload.admin.labels.local.cdn_url')), m('input', {

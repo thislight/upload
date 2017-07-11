@@ -43,8 +43,8 @@ export default class UploadPage extends Component {
             'mustResize',
             'overrideAvatarUpload',
 
-            'disableHotlinkProtection',
-            'disableDownloadLogging',
+            'hotlinkProtection',
+            'downloadLogging',
         ];
 
         // fields that are objects
@@ -198,19 +198,19 @@ export default class UploadPage extends Component {
                             <UploadImageButton name="flagrow/watermark"/>
                         ]),
                         m('fieldset', {className: 'UploadPage-downloading'}, [
-                            m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.disable-hotlink-protection.title')),
-                            m('div', {className: 'helpText'}, app.translator.trans('flagrow-upload.admin.help_texts.disable-hotlink-protection')),
+                            m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.hotlink-protection.title')),
+                            m('div', {className: 'helpText'}, app.translator.trans('flagrow-upload.admin.help_texts.hotlink-protection')),
                             Switch.component({
-                                state: this.values.disableHotlinkProtection() || false,
-                                children: app.translator.trans('flagrow-upload.admin.labels.disable-hotlink-protection.toggle'),
-                                onchange: this.values.disableHotlinkProtection
+                                state: this.values.hotlinkProtection(),
+                                children: app.translator.trans('flagrow-upload.admin.labels.hotlink-protection.toggle'),
+                                onchange: this.values.hotlinkProtection
                             }),
-                            m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.disable-download-logging.title')),
-                            m('div', {className: 'helpText'}, app.translator.trans('flagrow-upload.admin.help_texts.disable-download-logging')),
+                            m('legend', {}, app.translator.trans('flagrow-upload.admin.labels.download-logging.title')),
+                            m('div', {className: 'helpText'}, app.translator.trans('flagrow-upload.admin.help_texts.download-logging')),
                             Switch.component({
-                                state: this.values.disableDownloadLogging() || false,
-                                children: app.translator.trans('flagrow-upload.admin.labels.disable-download-logging.toggle'),
-                                onchange: this.values.disableDownloadLogging
+                                state: this.values.downloadLogging(),
+                                children: app.translator.trans('flagrow-upload.admin.labels.download-logging.toggle'),
+                                onchange: this.values.downloadLogging
                             }),
                         ]),
                         m('fieldset', {

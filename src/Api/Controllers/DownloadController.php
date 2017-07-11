@@ -52,7 +52,7 @@ class DownloadController implements ControllerInterface
 
         $session = $request->getAttribute('session');
 
-        if ($this->settings->get('disableHotlinkProtection') != 1 && $csrf !== $session->get('csrf_token')) {
+        if ($this->settings->get('hotlinkProtection') == 1 && $csrf !== $session->get('csrf_token')) {
             throw new ModelNotFoundException();
         }
 

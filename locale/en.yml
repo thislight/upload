@@ -49,12 +49,12 @@ flagrow-upload:
                 username: Username
                 password: Password
                 region: Region
-            disable-hotlink-protection:
-                title: Disable hotlink protection
-                toggle: Disable
-            disable-download-logging:
-                title: Disable logging downloads
-                toggle: Disable
+            hotlink-protection:
+                title: Hotlink protection
+                toggle: Protect
+            download-logging:
+                title: Log downloads
+                toggle: Log
 
         buttons:
             save: Save settings
@@ -74,10 +74,10 @@ flagrow-upload:
                 Choose whether images will have a watermark added during
                 upload. Watermarks are added to non-gifs based on your
                 preferences below.
-            disable-hotlink-protection: >
+            hotlink-protection: >
                 Hotlink protection prevents opening downloads from other sites.
                 Current method requires a csrf token and post id.
-            disable-download-logging: >
-                Disable logging every download made by users of your forum. Keeping it
+            download-logging: >
+                Logs every download made by users of your forum. Keeping it
                 enabled allows you to view the number of downloads and other metrics
                 in the nearby future.
