@@ -4,6 +4,7 @@ namespace Flagrow\Upload\Api\Controllers;
 
 use Flagrow\Upload\Api\Serializers\FileSerializer;
 use Flagrow\Upload\Commands\Download;
+use Flagrow\Upload\Commands\Embed;
 use Flagrow\Upload\Helpers\Settings;
 use Flarum\Core\Repository\PostRepository;
 use Flarum\Http\Controller\ControllerInterface;
@@ -54,6 +55,12 @@ class DownloadController implements ControllerInterface
 
         if ($this->settings->get('hotlinkProtection') == 1 && $csrf !== $session->get('csrf_token')) {
             throw new ModelNotFoundException();
+        }
+
+        if (Arr::get($request->getQueryParams(), 'embed')) {
+            return $this->bus->dispatch(
+                new Embed($uuid, $actor, $discussion, $postId)
+            );
         }
 
         return $this->bus->dispatch(

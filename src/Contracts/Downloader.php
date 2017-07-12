@@ -3,6 +3,7 @@
 namespace Flagrow\Upload\Contracts;
 
 use Flagrow\Upload\Commands\Download;
+use Flagrow\Upload\Commands\Embed;
 use Flagrow\Upload\File;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,4 +23,11 @@ interface Downloader
      * @return ResponseInterface
      */
     public function download(File $file, Download $command);
+
+    /**
+     * @param File $file
+     * @param Embed $command
+     * @return ResponseInterface
+     */
+    public function embed(File $file, Embed $command);
 }

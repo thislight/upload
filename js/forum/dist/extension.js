@@ -263,13 +263,26 @@ System.register('flagrow/upload/downloadButtonInteraction', ['flarum/extend', 'f
 
             if (isInitialized) return;
 
+            this.$('.flagrow-download').each(function (i, elm) {
+                var url = app.forum.attribute('apiUrl') + '/flagrow/download';
+
+                url += '/' + $(elm).attr('data-uuid');
+                url += '/' + _this.props.post.id();
+                url += '/' + app.session.csrfToken;
+                url += '/embed';
+
+                console.log(url);
+
+                $(elm).find('.wrapper').css('background-image', 'url(' + url + ')');
+            });
+
             this.$('.flagrow-download-button[data-uuid]').unbind('click').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 var url = app.forum.attribute('apiUrl') + '/flagrow/download';
 
-                url += '/' + $(e.currentTarget).attr('data-uuid');
+                url += '/' + $(e.currentTarget).parents('.flagrow-download').attr('data-uuid');
                 url += '/' + _this.props.post.id();
                 url += '/' + app.session.csrfToken;
 

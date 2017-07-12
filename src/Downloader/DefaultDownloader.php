@@ -3,6 +3,7 @@
 namespace Flagrow\Upload\Downloader;
 
 use Flagrow\Upload\Commands\Download;
+use Flagrow\Upload\Commands\Embed;
 use Flagrow\Upload\Contracts\Downloader;
 use Flagrow\Upload\Exceptions\InvalidDownloadException;
 use Flagrow\Upload\File;
@@ -32,6 +33,17 @@ class DefaultDownloader implements Downloader
         return true;
     }
 
+    protected function getFile(File $file)
+    {
+        try {
+            $response = $this->api->get($file->url);
+        } catch (\Exception $e) {
+            throw new InvalidDownloadException($e->getMessage());
+        }
+
+        return $response;
+    }
+
     /**
      * @param File $file
      * @param Download $command
@@ -40,15 +52,11 @@ class DefaultDownloader implements Downloader
      */
     public function download(File $file, Download $command)
     {
-        try {
-            $response = $this->api->get($file->url);
-        } catch (\Exception $e) {
-            throw new InvalidDownloadException($e->getMessage());
-        }
+        $response = $this->getFile($file);
 
         if ($response->getStatusCode() == 200) {
 
-            $response = $this->mutateHeaders($response, $file);
+            $response = $this->mutateHeadersForDownload($response, $file);
 
             return $response;
         }
@@ -61,7 +69,7 @@ class DefaultDownloader implements Downloader
      * @param File $file
      * @return ResponseInterface
      */
-    protected function mutateHeaders(ResponseInterface $response, File $file)
+    protected function mutateHeadersForDownload(ResponseInterface $response, File $file)
     {
         $response = $response->withHeader('Content-Type', 'application/force-download');
         $response = $response->withAddedHeader('Content-Type', 'application/octet-stream');
@@ -73,6 +81,36 @@ class DefaultDownloader implements Downloader
             'Content-Disposition',
             sprintf('attachment; filename="%s"', $file->base_name)
         );
+
+        return $response;
+    }
+
+    /**
+     * @param File $file
+     * @param Embed $command
+     * @return ResponseInterface
+     */
+    public function embed(File $file, Embed $command)
+    {
+        $response = $this->getFile($file);
+
+        if ($response->getStatusCode() == 200) {
+
+            $response = $this->mutateHeadersForEmbed($response, $file, true);
+
+            return $response;
+        }
+
+        return null;
+    }
+    /**
+     * @param ResponseInterface $response
+     * @param File $file
+     * @return ResponseInterface
+     */
+    protected function mutateHeadersForEmbed(ResponseInterface $response, File $file)
+    {
+        $response = $response->withoutHeader('Content-Disposition');
 
         return $response;
     }
