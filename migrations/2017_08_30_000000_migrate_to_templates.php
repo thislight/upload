@@ -13,48 +13,63 @@
 
 
 use Flagrow\Upload\File;
-use Flagrow\Upload\Templates\AbstractTemplate;
-use Illuminate\Database\ConnectionInterface;
 use Flagrow\Upload\Templates;
+use Flagrow\Upload\Templates\AbstractTemplate;
+use Flarum\Formatter\Formatter;
+use Illuminate\Database\ConnectionInterface;
 
 return [
-    'up'   => function (ConnectionInterface $connection) {
+    'up' => function (ConnectionInterface $connection) {
+    /** @var Formatter $formatter */
+        $formatter = app(Formatter::class);
         $connection
             ->table('posts')
-            ->chunk(10, function ($posts) use (&$replace, $connection) {
+            ->chunk(10, function ($posts) use ($connection, $formatter) {
                 foreach ($posts as $post) {
-                    $content = $post->content;
+                    $content = $formatter->unparse($post->content);
                     replaceIdentifiers($connection, $content);
 
                     $connection
                         ->table('posts')
                         ->where('id', $post->id)
                         ->update([
-                        'content' => $content
-                    ]);
+                                'content' => $content
+                            ]
+                        );
                 }
-        });
+            });
     },
     'down' => function (ConnectionInterface $connection) {
-    // ..
+        // ..
     }
 ];
 
-function replaceIdentifiers(ConnectionInterface $connection, &$content) {
+function replaceIdentifiers(ConnectionInterface $connection, &$content)
+{
+    var_dump($content);
     $content = preg_replace_callback_array([
-        '/\$image-(?<uuid>[a-z0-9-]{36})/' => function ($m) use ($connection) {
+        '/\<FLAGROW_FILE_IMAGE [^>]+?>$image-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_IMAGE>/' => function ($m) use ($connection) {
             return bbcode($connection, $m['uuid'], new Templates\ImageTemplate());
         },
-        '/\$file-(?<uuid>[a-z0-9-]{36})/' => function ($m) use ($connection) {
+        '/\<FLAGROW_FILE_FILE [^>]+?>$file-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_FILE>/' => function ($m) use ($connection) {
             return bbcode($connection, $m['uuid'], new Templates\FileTemplate());
         },
     ], $content);
+
+    var_dump($content);
 }
-function bbcode(ConnectionInterface $connection, $uuid, AbstractTemplate $template) {
+
+function bbcode(ConnectionInterface $connection, $uuid, AbstractTemplate $template)
+{
     $file = $connection->table('flagrow_files')->where('uuid', $uuid)->first();
+
+    if (!$file) {
+        return '';
+    }
+
     $bbcode = $template->bbcode();
-    /** @var \Flarum\Formatter\Formatter $formatter */
-    $formatter = app(\Flarum\Formatter\Formatter::class);
+    /** @var Formatter $formatter */
+    $formatter = app(Formatter::class);
 
     $code = preg_replace_callback_array([
         '/\](?<find>.*)\[/' => function ($m) use ($file) {
@@ -71,5 +86,5 @@ function bbcode(ConnectionInterface $connection, $uuid, AbstractTemplate $templa
         }
     ], $bbcode);
 
-    return $formatter->parse($code);
+    return $formatter->parse($code, $file);
 }
