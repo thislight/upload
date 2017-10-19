@@ -32,7 +32,7 @@
         "league/flysystem": "^1.0.32",
         "league/flysystem-aws-s3-v3": "^1.0",
         "techyah/flysystem-ovh": "^1.0",
-        "flagrow/steamroller": "@dev"
+        "flagrow/steamroller": "dev-master"
     },
     "extra": {
         "flarum-extension": {
@@ -58,12 +58,6 @@
     "autoload-dev": {
         "psr-4": {
             "Flagrow\\Upload\\Tests\\": "tests/"
-        }
-    },
-    "repositories": {
-        "steamroller": {
-            "type": "path",
-            "url": "../steamroller/"
         }
     }
 }
