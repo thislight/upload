@@ -16,7 +16,6 @@ references:
             - run:
                 name: Wait for other docker instances to be up
                 command: sleep 10
-            - run: php flarum install --defaults -n
             - run: ./vendor/bin/phpunit -c ci.phpunit.xml
 
     mysql_environment: &mysql_environment
