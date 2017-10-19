@@ -24,7 +24,7 @@ return function (Dispatcher $events, Application $app) {
     $app->register(Providers\DownloadProvider::class);
 
     $events->subscribe(Listeners\AddClientAssets::class);
-    $events->subscribe(Listeners\AddPostDownloadTags::class);
+    $events->subscribe(Listeners\AddDownloadTemplates::class);
     $events->subscribe(Listeners\AddUploadsApi::class);
     $events->subscribe(Listeners\LoadSettingsFromDatabase::class);
     $events->subscribe(Listeners\ProcessesImages::class);

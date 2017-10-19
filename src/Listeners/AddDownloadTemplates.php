@@ -13,7 +13,7 @@ use InvalidArgumentException;
 use s9e\TextFormatter\Configurator;
 use s9e\TextFormatter\Configurator\Exceptions\UnsafeTemplateException;
 
-class AddPostDownloadTags
+class AddDownloadTemplates
 {
     /**
      * @var UrlGenerator
@@ -76,23 +76,6 @@ class AddPostDownloadTags
         } catch (UnsafeTemplateException $e) {
             throw new UnsafeTemplateException("Failed importing $name due to {$e->getMessage()}", $e->getNode());
         }
-        /*
-        $tag = $configurator->tags->add($tagName);
-
-        $template->configureAttributes($tag);
-
-        $tag->template = $template->template();
-
-        $tag->filterChain->prepend([$template, 'addAttributes'])
-            ->addParameterByName('fileRepository')
-            ->setJS('function() { return true; }')
-        ;
-
-        $configurator->Preg->match(
-            '/' . preg_quote('$' . $name . '-') . '(?<uuid>[a-z0-9-]{36})/',
-            $tagName
-        );
-        */
     }
 
     /**
