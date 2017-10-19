@@ -46,17 +46,14 @@ return [
 
 function replaceIdentifiers(ConnectionInterface $connection, &$content)
 {
-    var_dump($content);
     $content = preg_replace_callback_array([
-        '/\<FLAGROW_FILE_IMAGE [^>]+?>$image-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_IMAGE>/' => function ($m) use ($connection) {
-            return bbcode($connection, $m['uuid'], new Templates\ImageTemplate());
+        '/\<FLAGROW_FILE_IMAGE [^>]+?>\$image-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_IMAGE>/' => function ($m) use ($connection) {
+            return bbcode($connection, $m['uuid'], new Templates\ImagePreviewTemplate());
         },
-        '/\<FLAGROW_FILE_FILE [^>]+?>$file-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_FILE>/' => function ($m) use ($connection) {
+        '/\<FLAGROW_FILE_FILE [^>]+?>\$file-(?<uuid>[a-z0-9-]{36})<\/FLAGROW_FILE_FILE>/' => function ($m) use ($connection) {
             return bbcode($connection, $m['uuid'], new Templates\FileTemplate());
         },
     ], $content);
-
-    var_dump($content);
 }
 
 function bbcode(ConnectionInterface $connection, $uuid, AbstractTemplate $template)

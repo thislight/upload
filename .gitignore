@@ -1,3 +1,4 @@
 js/*/node_modules
+tests/cache/
 vendor/
 composer.lock
