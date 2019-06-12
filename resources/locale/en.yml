@@ -6,6 +6,8 @@ flagrow-upload:
             loading: Loading
             success: Success
             error: Error
+        gallery:
+          app_title: Upload gallery of :username
     admin:
         templates:
             image: Default image download template

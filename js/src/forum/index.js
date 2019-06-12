@@ -3,10 +3,14 @@ import TextEditor from "flarum/components/TextEditor";
 import UploadButton from "./components/UploadButton";
 import DragAndDrop from "./components/DragAndDrop";
 import PasteClipboard from "./components/PasteClipboard";
+import GalleryPage from "./pages/GalleryPage";
 
 import downloadButtonInteraction from './downloadButtonInteraction';
 
 app.initializers.add('flagrow-upload', app => {
+
+    app.routes.flagrow_files = {path: '/u/:username/gallery', component: GalleryPage.component()}
+
     let uploadButton,
         drag,
         clipboard;

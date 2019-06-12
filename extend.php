@@ -21,7 +21,8 @@ return [
     (new Extend\Routes('api'))
         ->post('/flagrow/upload', 'flagrow.upload', Api\Controllers\UploadController::class)
         ->post('/flagrow/watermark', 'flagrow.watermark', Api\Controllers\WatermarkUploadController::class)
-        ->get('/flagrow/download/{uuid}/{post}/{csrf}', 'flagrow.upload.download', Api\Controllers\DownloadController::class),
+        ->get('/flagrow/download/{uuid}/{post}/{csrf}', 'flagrow.upload.download', Api\Controllers\DownloadController::class)
+        ->get('/users/{id}/gallery', 'flagrow.upload.user.gallery', Api\Controllers\GalleryController::class),
     (new Extend\Frontend('admin'))
         ->css(__DIR__.'/resources/less/admin/settingsPage.less')
         ->js(__DIR__.'/js/dist/admin.js'),
