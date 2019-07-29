@@ -75,6 +75,7 @@ flagrow-upload:
       imgur: Imgur
       local: Local
       ovh-svfs: OVH SVFS
+      smms: "SM.MS"
   forum:
     buttons:
       attach: Attach

@@ -75,6 +75,8 @@ class StorageServiceProvider extends ServiceProvider
                             }
                         case 'imgur':
                             return $this->imgur($settings);
+                        case 'smms':
+                            return $this->smms($settings);
 
                         default:
                             return $this->local($settings);
@@ -138,6 +140,20 @@ class StorageServiceProvider extends ServiceProvider
                 'headers'  => [
                     'Authorization' => 'Client-ID '.$settings->get('imgurClientId'),
                 ],
+            ])
+        );
+    }
+
+    /**
+     * @param Settings $settings
+     *
+     * @return Adapters\Smms
+     */
+    protected function smms(Settings $settings)
+    {
+        return new Adapters\Smms(
+            new Guzzle([
+                'base_uri' => 'https://sm.ms/api/'
             ])
         );
     }
