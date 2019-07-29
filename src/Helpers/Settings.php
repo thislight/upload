@@ -190,6 +190,7 @@ class Settings
         /** @var Collection $methods */
         $methods = [
             'local',
+            'smms',
         ];
 
         if (class_exists(AwsClient::class)) {
